@@ -14,6 +14,7 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 WORKDIR $INSTALL_PATH
+COPY static static
 COPY *.py ./
 
 RUN pytest -v
