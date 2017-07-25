@@ -9,7 +9,7 @@ class Parser:
         [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
         tokenised = Parser._tokenise(soup.get_text())
         cleaned = Parser._remove_prepositions_and_articles(tokenised)
-        return Parser._get_frequency_dist(cleaned)
+        return Parser._get_frequency_dist(cleaned)[:100]
 
     @staticmethod
     def _tokenise(s):

@@ -44,7 +44,7 @@ class MainHandler(Handler):
         self.write(self.loader.load("wordcloud.html").generate(url=url, word_counts=json.dumps(word_counts)))
         self.finish()
 
-        models.save(word_counts[:100], self.session)
+        models.save(word_counts, self.session)
 
 
 class AdminHandler(Handler):
