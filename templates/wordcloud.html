@@ -24,6 +24,11 @@
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="/static/d3.layout.cloud.js"></script>
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 </body>
@@ -38,7 +43,7 @@
     var fill = d3.scale.category20();
 
     var layout = d3.layout.cloud()
-        .size([1000, 500])
+        .size([window.innerWidth, window.innerHeight])
         .words(list)
         .padding(5)
         .font("Impact")
