@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.6
 
 MAINTAINER danielkarpinski
 
@@ -15,7 +15,9 @@ RUN pip install -r requirements.txt
 
 WORKDIR $INSTALL_PATH
 COPY static static
+COPY templates templates
 COPY *.py ./
+COPY public.pem public.pem
 
 RUN pytest -v
 

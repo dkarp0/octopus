@@ -37,8 +37,6 @@ class MainHandler(Handler):
         self.set_status(200)
         self.write(self.loader.load("main.html").generate())
 
-
-class WordCloudHandler(Handler):
     def post(self):
         self.set_status(200)
         url = self.get_body_argument('url')
@@ -71,8 +69,8 @@ def make_app():
     return tornado.web.Application([
         (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static/'}),
         (r"/", MainHandler),
-        (r"/wordcloud/", WordCloudHandler),
         (r"/admin/", AdminHandler),
+        (r"/_ah/health", MainHandler),
     ])
 
 
