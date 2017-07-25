@@ -15,15 +15,18 @@ import page_parser
 class Handler(tornado.web.RequestHandler):
     loader = None
     session = None
+    is_live = None
+    env = None
 
     def initialize(self):
         super().initialize()
         self.loader = tornado.template.Loader('templates')
+        self.is_live = bool(os.getenv('SQLALCHEMY_DATABASE_URI', False))
+        self.env = 'Production' if self.is_live else 'Development'
         self.session = self.init_session()
 
-    @staticmethod
-    def init_session():
-        if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
+    def init_session(self):
+        if self.is_live:
             engine = sqlalchemy.create_engine(os.getenv('SQLALCHEMY_DATABASE_URI', ''))
         else:
             engine = sqlalchemy.create_engine('sqlite:///test.db')
@@ -58,7 +61,7 @@ class AdminHandler(Handler):
             return
 
         self.set_status(200)
-        self.write(self.loader.load("list.html").generate(words=words))
+        self.write(self.loader.load("list.html").generate(words=words, env=self.env))
 
     def get(self):
         self.set_status(200)

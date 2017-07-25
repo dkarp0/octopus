@@ -9,7 +9,7 @@ Base = declarative_base()
 
 class Words(Base):
     __tablename__ = 'words'
-    id = sqlalchemy.Column(sqlalchemy.String(), primary_key=True, nullable=False)
+    id = sqlalchemy.Column(sqlalchemy.String(255), primary_key=True, nullable=False)
     word = sqlalchemy.Column(sqlalchemy.Binary(), nullable=False)
     count = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
 

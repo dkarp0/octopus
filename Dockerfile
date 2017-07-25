@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM gcr.io/google-appengine/python
 
 MAINTAINER danielkarpinski
 
@@ -8,10 +8,10 @@ RUN mkdir -p $INSTALL_PATH
 RUN mkdir -p /root/nltk_data
 COPY nltk /root/nltk_data
 
-RUN pip install --upgrade pip
+RUN pip3.6 install --upgrade pip
 
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3.6 install -r requirements.txt
 
 WORKDIR $INSTALL_PATH
 COPY static static
@@ -22,4 +22,4 @@ COPY public.pem public.pem
 RUN pytest -v
 
 EXPOSE 8080
-CMD python app.py
+CMD python3.6 app.py
