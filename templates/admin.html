@@ -24,7 +24,7 @@
 
 </head>
 <body>
-<form class="form-horizontal" action="/admin/" method="post">
+<form enctype="multipart/form-data" class="form-horizontal" action="/admin/" method="post">
     <fieldset>
         <legend>Admin Word List</legend>
 
@@ -32,7 +32,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="key">Private Key</label>
             <div class="col-md-4">
-                <input id="key" name="key" type="file" class="form-control" required="">
+                <input id="key" name="key" class="input-file" type="file">
                 <span class="help-block">Upload your private key to decrypt</span>
             </div>
         </div>

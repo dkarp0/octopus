@@ -26,10 +26,10 @@ class Handler(tornado.web.RequestHandler):
         if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
             engine = sqlalchemy.create_engine(os.getenv('SQLALCHEMY_DATABASE_URI', ''))
         else:
-            engine = sqlalchemy.create_engine('sqlite:///:memory:')
+            engine = sqlalchemy.create_engine('sqlite:///test.db')
 
         models.Base.metadata.create_all(engine)
-        return sessionmaker(bind=engine)()
+        return sessionmaker(bind=engine, autoflush=False)()
 
 
 class MainHandler(Handler):
@@ -51,14 +51,20 @@ class WordCloudHandler(Handler):
 
 class AdminHandler(Handler):
     def post(self):
+        key = self.request.files['key'][0]['body']
+        try:
+            words = models.get(self.session, key)
+        except (ValueError, TypeError):
+            self.write('Please make sure to upload the correct Private Key')
+            self.set_status(403)
+            return
+
         self.set_status(200)
-        file_info = self.request.files['filearg'][0]
-        words = models.get(self.session, file_info['body'])
         self.write(self.loader.load("list.html").generate(words=words))
 
     def get(self):
         self.set_status(200)
-        self.write(self.loader.load("admin.html"))
+        self.write(self.loader.load("admin.html").generate())
 
 
 def make_app():
